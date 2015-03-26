@@ -1,0 +1,12 @@
+---
+#
+# Test Playbook
+#
+
+- hosts: localhost
+  connection: local
+
+  roles:
+    - { role: ../../, sudo: yes }
+
+- include: tests.yml

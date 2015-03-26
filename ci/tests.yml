@@ -1,0 +1,18 @@
+---
+
+- hosts: localhost
+  connection: local
+  sudo: yes
+  
+  tasks:
+    # Sample Test - tests for uname
+    - name: Display uname
+      command: uname
+      register: host_os
+
+    - fail:
+        msg: "Sample test failed"
+      when: host_os.rc != 0
+
+    - debug:
+        msg: "Tests pass for this [{{host_os.stdout}}] box."

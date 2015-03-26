@@ -1,0 +1,48 @@
+---
+
+- name: Perl version
+  command: "perl -e 'print($] < {{perl_min_version}})'"
+  register: user_perl_version
+
+- debug: msg="Your perl install matches the required."
+  when: user_perl_version.stdout != '1'
+
+- name: Download cpanminus
+  get_url: 
+    url: "{{perl_cpanm_url}}"
+    dest: "{{perl_cpanm_dest}}"
+    mode: "{{perl_cpanm_dest_file_mode}}"
+    force: yes
+    validate_certs: yes
+  # when: user_perl_version.stdout == '1'
+
+- name: Execute cpanminus
+  command: "perl {{perl_cpanm_dest}} --sudo App::cpanminus"
+  # when: user_perl_version.stdout == '1'
+
+- name: Install perlbrew
+  cpanm: name=App::perlbrew
+  when: user_perl_version.stdout == '1'
+
+- name: Init perlbrew
+  command: perlbrew init
+  when: user_perl_version.stdout == '1'
+
+- name: Install Perl
+  command: perlbrew install {{perl_min_version_label}}
+  when: user_perl_version.stdout == '1'
+
+- name: Switch Perl
+  command: perlbrew switch {{perl_min_version_label}}
+  when: user_perl_version.stdout == '1'
+
+- name: Modify bashrc for user
+  lineinfile:
+    dest: ~/.bashrc
+    backup: yes
+    line: "fi;\nsource ~/perl5/perlbrew/etc/bashrc\n"
+    regexp: ''
+    state: present
+    insertafter: EOF
+    create: True
+  when: user_perl_version.stdout == '1'
