@@ -5,7 +5,7 @@ ansibleshipyard/ansible-perl
 
 [![Build Status](https://travis-ci.org/AnsibleShipyard/ansible-perl.svg?branch=master)](https://travis-ci.org/AnsibleShipyard/ansible-perl)
 
-[Galaxy Role](https://galaxy.ansible.com/list#/roles/????)
+[Galaxy Role](https://galaxy.ansible.com/list#/roles/3227)
 
 [Dockerfile](https://registry.hub.docker.com/u/ansibleshipyard/ansible-perl/)
 
