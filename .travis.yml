@@ -1,14 +1,12 @@
 ---
-language: perl
-  - "5.18.2"
-  - "5.16.3"
+language: python
 
 env:
   - SITE=playbook.yml
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install curl -y
+  - sudo apt-get install -y curl perl
 
 install:
   - pip install -U ansible
