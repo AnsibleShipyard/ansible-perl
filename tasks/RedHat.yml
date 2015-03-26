@@ -1,3 +1,14 @@
 ---
 
+- name: Yum update cache
+  yum: update_cache=yes
+  tags: bootstrap
+
+- name: Yum install required system packages.
+  apt: pkg={{item}} state=installed
+  tags: bootstrap
+  with_items:
+    - curl
+    - git
+
 - include: common.yml
