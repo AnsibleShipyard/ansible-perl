@@ -1,4 +1,4 @@
-ansible-ddg-hack
+ansible-perl
 ================
 
 ansibleshipyard/ansible-perl
