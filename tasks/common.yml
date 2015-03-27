@@ -1,6 +1,13 @@
 ---
 
 - name: Perl version
+  command: "env"
+
+- name: Perlbrew lookup
+  debug: 
+    msg: "PERLBREW_ROOT {{ lookup('env', 'SOMEVAR') }}"
+
+- name: Perl version
   command: "perl -e 'print($])'"
 
 - name: Perl version comparison
