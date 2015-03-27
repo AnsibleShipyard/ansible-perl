@@ -5,7 +5,23 @@
 
 - name: Perlbrew lookup
   debug: 
-    msg: "PERLBREW_ROOT {{ lookup('env', 'PERLBREW_ROOT') }}"
+    msg: "{{ lookup('env', 'PERLBREW_ROOT') }}"
+  register: user_perlbrew_root
+
+- name: Perlbrew Perl lookup
+  debug: 
+    msg: "{{ lookup('env', 'PERLBREW_PERL') }}"
+  register: user_perlbrew_perl
+
+- name: Check perl bin
+  stat:
+    path: "{{user_perlbrew_root}}/{{user_perlbrew_perl}}"
+  register: user_perl_bin
+
+- fail:
+    msg: "Env specifies perlbrew and a perl exists at {{user_perl_bin}}, but none could be found."
+  when: not user_perl_bin.stat.exists
+
 
 - name: Perl version
   command: "perl -e 'print($])'"
