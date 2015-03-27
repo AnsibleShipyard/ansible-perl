@@ -12,7 +12,7 @@ before_install:
   - sudo apt-get install -y curl
 
 install:
-  - pip install -U ansible
+  - sudo pip install -U ansible
 
   # Add ansible.cfg to pick up roles path.
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
