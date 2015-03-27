@@ -15,7 +15,7 @@
 
 - name: Check perl bin
   stat:
-    path: "{{ lookup('env', 'PERLBREW_ROOT') }}/perls/{{ lookup('env', 'PERLBREW_PERL') }}/bin/perl"
+    path: "{{perl_user_homebrew_perl}}"
   register: user_perl_bin
 
 - fail:

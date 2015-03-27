@@ -12,6 +12,8 @@
 perl_min_version: "5.020000"
 perl_min_version_label: "perl-5.20.0"
 
+perl_user_homebrew_perl: "{{ lookup('env', 'PERLBREW_ROOT') }}/perls/{{ lookup('env', 'PERLBREW_PERL') }}/bin/perl"
+
 perl_cpanm_url: https://cpanmin.us
 perl_cpanm_dest: ~/cpanm.pl
 perl_cpanm_dest_file_mode: 700
