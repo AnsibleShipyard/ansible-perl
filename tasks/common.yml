@@ -1,33 +1,27 @@
 ---
 
-- name: Perl version
-  command: "env"
-
-- name: Perlbrew lookup
-  debug: 
-    msg: "{{ lookup('env', 'PERLBREW_ROOT') }}"
-  register: user_perlbrew_root
-
-- name: Perlbrew Perl lookup
-  debug: 
-    msg: "{{ lookup('env', 'PERLBREW_PERL') }}"
-  register: user_perlbrew_perl
-
 - name: Check perl bin
   stat:
     path: "{{perl_user_homebrew_perl}}"
   register: user_perl_bin
 
-- fail:
-    msg: "Env specifies perlbrew and a perl exists at {{ lookup('env', 'PERLBREW_ROOT') }}/perls/{{ lookup('env', 'PERLBREW_PERL') }}/bin/perl, but none could be found."
-  when: not user_perl_bin.stat.exists
+# - fail:
+#     msg: "Env specifies perlbrew and a perl exists at {{ lookup('env', 'PERLBREW_ROOT') }}/perls/{{ lookup('env', 'PERLBREW_PERL') }}/bin/perl, but none could be found."
+#   when: not user_perl_bin.stat.exists
 
 - name: Perl version
-  command: "perl -e 'print($])'"
+  command: "{{perl_user_homebrew_perl}} -e 'print($])'"
+  when: user_perl_bin.stat.exists
+
+- name: Perl version comparison
+  command: "{{perl_user_homebrew_perl}} -e 'print($] < {{perl_min_version}})'"
+  register: user_perl_version
+  when: user_perl_bin.stat.exists
 
 - name: Perl version comparison
   command: "perl -e 'print($] < {{perl_min_version}})'"
   register: user_perl_version
+  when: not user_perl_bin.stat.exists
 
 - debug: msg="Your perl install matches the required."
   when: user_perl_version.stdout != '1'
@@ -47,19 +41,19 @@
 
 - name: Install perlbrew
   cpanm: name=App::perlbrew
-  when: user_perl_version.stdout == '1'
+  when: user_perl_version.stdout == '1' and not user_perl_bin.stat.exists
 
 - name: Init perlbrew
   command: perlbrew init
-  when: user_perl_version.stdout == '1'
+  when: user_perl_version.stdout == '1' and not user_perl_bin.stat.exists
 
 - name: Install Perl
   command: perlbrew install {{perl_min_version_label}}
-  when: user_perl_version.stdout == '1'
+  when: user_perl_version.stdout == '1' and not user_perl_bin.stat.exists
 
 - name: Switch Perl
   command: perlbrew switch {{perl_min_version_label}}
-  when: user_perl_version.stdout == '1'
+  when: user_perl_version.stdout == '1' and not user_perl_bin.stat.exists
 
 - name: Modify bashrc for user
   lineinfile:
@@ -70,4 +64,4 @@
     state: present
     insertafter: EOF
     create: True
-  when: user_perl_version.stdout == '1'
+  when: user_perl_version.stdout == '1' and not user_perl_bin.stat.exists
