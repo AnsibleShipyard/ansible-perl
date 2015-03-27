@@ -19,8 +19,6 @@ install:
 
 script:
 
-  - ls -la /home/travis/perl5/perlbrew/5.20/bin
-
   # Check the role/playbook's syntax.
   - "ansible-playbook -i ci/inventory ci/$SITE --syntax-check"
 
