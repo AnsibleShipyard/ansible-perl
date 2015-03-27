@@ -1,6 +1,9 @@
 ---
 
 - name: Perl version
+  command: "perl -e 'print($])'"
+
+- name: Perl version comparison
   command: "perl -e 'print($] < {{perl_min_version}})'"
   register: user_perl_version
 
