@@ -2,7 +2,7 @@
 language: perl
 perl:
   - "5.20"
-  - "5.18"
+#  - "5.18"
 
 env:
   - SITE=playbook.yml
