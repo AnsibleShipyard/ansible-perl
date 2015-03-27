@@ -5,7 +5,7 @@
 
 - name: Perlbrew lookup
   debug: 
-    msg: "PERLBREW_ROOT {{ lookup('env', 'SOMEVAR') }}"
+    msg: "PERLBREW_ROOT {{ lookup('env', 'PERLBREW_ROOT') }}"
 
 - name: Perl version
   command: "perl -e 'print($])'"
