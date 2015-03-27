@@ -18,6 +18,8 @@ install:
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 
 script:
+  - which perlbrew
+  
   # Check the role/playbook's syntax.
   - "ansible-playbook -i ci/inventory ci/$SITE --syntax-check"
 
